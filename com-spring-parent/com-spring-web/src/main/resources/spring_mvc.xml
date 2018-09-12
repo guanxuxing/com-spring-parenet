@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+   <!-- <aop:config />-->
+    <!-- enable @AspectJ support with XML based configuration -->
+    <aop:aspectj-autoproxy />
+   <!-- <context:annotation-config />-->
+
+    <context:component-scan base-package="com.spring.bot.controller" ></context:component-scan>
+
+    <!-- 启动包扫描功能，以便注册带有@Controller、@Service、@repository、@Component等注解的类成为spring的bean -->
+    <!--<context:component-scan base-package="com.spring.bot">
+        <context:exclude-filter type="annotation"
+                                expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>-->
+
+
+    <!-- 启动注解驱动的Spring MVC功能，注册请求url和注解POJO类方法的映射 -->
+ <!--   <mvc:annotation-driven />-->
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="false">
+            <!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+            <bean id="fastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <!-- 这里顺序不能反，一定先写text/html,不然ie下出现下载提示 -->
+                        <value>text/html;charset=UTF-8</value>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+            <bean id="jsonMessageConverter"
+                  class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper">
+                    <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+                        <!-- 设置不输出null字段-->
+                        <property name="serializationInclusion" value="NON_NULL"/>
+                    </bean>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!--<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <util:list id="beanList">
+                <ref bean="stringHttpMessageConverter"/>
+                <ref bean="mappingJackson2HttpMessageConverter"/>
+            </util:list>
+        </property>
+    </bean>
+
+    <bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/plain;charset=UTF-8</value>
+                <value>application/json;charset=UTF-8</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="mappingJackson2HttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/plain;charset=UTF-8</value>
+                <value>application/json;charset=UTF-8</value>
+            </list>
+        </property>
+    </bean>-->
+
+    <!-- mvc 拦截器 -->
+    <!-- 多个拦截器,顺序执行 -->
+    <!-- 如果不配置或/*,将拦截所有的Controller -->
+    <mvc:interceptors>
+       <!-- <mvc:interceptor>
+            <mvc:mapping path="/user/**"/>
+            <bean class="cn.senseinfo.external.interceptor.LogInterceptor"></bean>
+        </mvc:interceptor>-->
+        <mvc:interceptor>
+            <mvc:mapping path="/*" />
+           <!-- <mvc:mapping path="/user/**" />-->
+          <!--  <mvc:exclude-mapping path="/openApi/job/wilcomCallback"/>
+            <mvc:exclude-mapping path="/openApi/cost/**"/>-->
+            <mvc:exclude-mapping path="/user/list" />
+            <mvc:exclude-mapping path="/book/**" />
+            <bean class="com.spring.bot.interceptor.AccessInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <!-- springMvc Web配置 -->
+
+    <!-- 配置SpringMVC的视图解析器 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <!-- 对静态资源文件的访问 -->
+    <mvc:resources mapping="/static/**" location="/,/static/" />
+    <!--<mvc:resources mapping="/admin/**" location="/,/admin/" />
+    <mvc:resources mapping="/plugins/**" location="/,/plugins/" />
+    <mvc:resources mapping="/uploadFiles/**" location="/,/uploadFiles/" />-->
+
+
+
+    <import resource="spring_context.xml" />
+
+</beans>

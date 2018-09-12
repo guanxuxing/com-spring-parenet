@@ -1,0 +1,7 @@
+*.idea
+*.iml
+*.class
+/com-spring-parent/com-spring-web/target/*
+/com-spring-parent/com-spring-web/target/WEB-INF/lib/*.jar
+/com-spring-parent/com-spring-web/target/classes
+target

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- ActiveMQ -->
+    <!-- 配置生产者JMS连接工厂 -->
+    <bean id="producerJmsConnectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="${activemq.producerBrokerURL}"/>
+    </bean>
+
+    <!-- 配置消费者JMS连接工厂 -->
+    <bean id="consumerJmsConnectionFactory" class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="${activemq.consumerBrokerURL}"/>
+    </bean>
+
+    <!-- 配置生产者JMS模版 -->
+    <bean id="producerJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="producerJmsConnectionFactory"/>
+    </bean>
+
+    <!-- 配置消费者JMS模版 -->
+    <bean id="consumerJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="consumerJmsConnectionFactory"/>
+    </bean>
+
+    <!-- 创建一个队列 -->
+    <bean id="createDocDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg index="0" value="createDocQueue"/>
+    </bean>
+
+    <bean id="createDocListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="consumerJmsConnectionFactory" />
+        <property name="destination" ref="createDocDestination" />
+        <property name="messageListener" ref="createDocConsumer" />
+        <property name="concurrency" value="2-4"/>
+    </bean>
+</beans>

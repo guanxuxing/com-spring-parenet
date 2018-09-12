@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.spring.bot.dao.InterfaceParamDao">
+    <resultMap id="getMap" type="com.spring.bot.entity.InterfaceParam">
+    </resultMap>
+
+    <select id="getOneByCallee" parameterType="java.lang.String" resultType="com.spring.bot.entity.InterfaceParam">
+        SELECT
+        id AS id,
+        callee AS callee,
+        code AS code,
+        callee_desc AS calleeDesc,
+        file_path AS filePath,
+        uui_flag AS uuiFlag,
+        is_break AS isBreak,
+        default_play_wav AS defaultPlayWav
+        FROM plum_interface_param
+        WHERE callee = #{callee}
+    </select>
+
+    <insert id="addInterfaceParam" useGeneratedKeys="true" keyProperty="addTime" parameterType="com.spring.bot.entity.InterfaceParam">
+        INSERT INTO plum_interface_param (
+        callee,
+        code,
+        callee_desc
+        )
+        VALUES
+        (
+        #{callee},
+        #{code},
+        #{calleeDesc}
+        )
+    </insert>
+
+    <insert id="addList" parameterType="java.util.ArrayList">
+         INSERT INTO plum_interface_param (
+        callee,
+        code,
+        callee_desc
+        )
+        VALUES
+        <foreach collection="list" item="item"  separator="," >
+            (
+            #{item.callee},
+            #{item.code},
+            #{item.calleeDesc}
+            )
+        </foreach>
+    </insert>
+
+    <select id="getList" parameterType="com.spring.bot.entity.InterfaceParam" resultType="com.spring.bot.entity.InterfaceParam">
+        SELECT
+        id AS id,
+        callee AS callee,
+        code AS code,
+        callee_desc AS calleeDesc,
+        file_path AS filePath,
+        uui_flag AS uuiFlag,
+        is_break AS isBreak,
+        default_play_wav AS defaultPlayWav
+        FROM plum_interface_param
+    </select>
+
+    <select id="listPageInterfaceParam" parameterType="page" resultType="pd">
+        SELECT
+        id AS id,
+        callee AS callee,
+        code AS code,
+        callee_desc AS calleeDesc,
+        file_path AS filePath,
+        uui_flag AS uuiFlag,
+        is_break AS isBreak,
+        default_play_wav AS defaultPlayWav
+        FROM plum_interface_param
+    </select>
+
+</mapper>
