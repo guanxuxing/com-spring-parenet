@@ -1,3 +1,4 @@
+com-spring-web
 1、springMvc
 2、springMvc整合Mybatis(Mysql)
 3、springMvc Web 配置
@@ -10,4 +11,5 @@
 10、springMvc 接口返回对象字段为空忽略
 11、java 线程等待
 12、系列工具 com.spring.bot.util.*
+13、乐观锁 (url: book/sale)
 

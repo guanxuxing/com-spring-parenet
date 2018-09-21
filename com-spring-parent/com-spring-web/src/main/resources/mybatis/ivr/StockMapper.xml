@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.spring.bot.dao.StockDao">
+    <resultMap id="getMap" type="com.spring.bot.entity.Stock">
+    </resultMap>
+
+    <select id="getOne" parameterType="java.lang.Long" resultType="com.spring.bot.entity.Stock">
+        SELECT
+        id AS id,
+        `name` AS `name`,
+        `count` AS `count`,
+        sale AS sale,
+        version AS version
+        FROM stock WHERE id = #{id}
+    </select>
+
+    <update id="updateStock" parameterType="java.lang.Long" >
+        update stock set `count` = `count` - 1 where id = #{id} AND `count` > 0
+    </update>
+    
+    <!-- 乐观锁 -->
+    <update id="updateCountByOpti" parameterType="com.spring.bot.entity.Stock">
+        update stock set count = count -1,version = version + 1 where version = #{version} AND id = #{id}
+    </update>
+
+</mapper>

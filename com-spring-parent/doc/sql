@@ -1,0 +1,33 @@
+-------------------------------------------------------------------------------------------------
+create table `stock` (
+	`id` int (11),
+	`name` varchar (150),
+	`count` int (11),
+	`sale` int (11),
+	`version` int (11)
+);
+insert into `stock` (`id`, `name`, `count`, `sale`, `version`) values('1','1_name','10','0','0');
+----------------------------------------------------------------------------------------------------
+create table `stock_order` (
+	`id` int (11),
+	`sid` int (11),
+	`name` varchar (90),
+	`create_time` timestamp
+);
+-----------------------------------------------------------------------------------------------------
+create table `plum_interface_param` (
+	`id` bigint (20),
+	`callee` varchar (30),
+	`code` varchar (96),
+	`callee_desc` varchar (96),
+	`default_play_wav` varchar (600),
+	`file_path` varchar (150),
+	`uui_flag` tinyint (1),
+	`is_break` tinyint (1),
+	`add_user` bigint (20),
+	`update_user` bigint (20),
+	`add_time` bigint (20),
+	`update_time` bigint (20)
+);
+
+
