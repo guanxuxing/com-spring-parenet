@@ -1,4 +1,4 @@
-package com.spring.bot.controller.base;
+package com.spring.bot.controller;
 
 import com.spring.bot.biz.StockBiz;
 import org.springframework.stereotype.Controller;
