@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:batch = "http://www.springframework.org/schema/batch"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/batch
+       http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+       ">
+
+    <import resource="spring_context.xml" />
+
+    <!-- hellowWord 测试 -->
+    <bean id="tasklet" class="com.spring.bot.batch.MyTaskLet"></bean>
+    <bean id="fileReadTasklet" class="com.spring.bot.batch.FileReadTaskLet" />
+    <batch:job id="hwJob" >
+        <batch:step id="step1">
+            <batch:tasklet ref="tasklet"/>
+        </batch:step>
+        <!--<batch:step id="step2">
+            <batch:tasklet ref="fileReadTasklet" />
+        </batch:step>-->
+    </batch:job>
+
+</beans>
