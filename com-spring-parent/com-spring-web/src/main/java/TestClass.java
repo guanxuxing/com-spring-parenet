@@ -1,12 +1,7 @@
-import ch.qos.logback.core.util.TimeUtil;
-import com.alibaba.druid.util.JdbcUtils;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.SystemUtils;
-import org.apache.http.util.TextUtils;
-import sun.plugin2.util.SystemUtil;
-
-import java.io.File;
+import org.apache.commons.lang3.time.DateUtils;
+import org.apache.commons.net.io.Util;
+import org.springframework.web.util.WebUtils;
 
 /**
  * Created by Administrator on 2018-09-30.
@@ -14,6 +9,7 @@ import java.io.File;
 public class TestClass {
 
     public static void main(String[] args) throws Exception{
+
 
 
        /* System.out.println(SystemUtils.JAVA_IO_TMPDIR);
@@ -36,6 +32,8 @@ public class TestClass {
 
 
         System.gc();
+
+
 
     }
 

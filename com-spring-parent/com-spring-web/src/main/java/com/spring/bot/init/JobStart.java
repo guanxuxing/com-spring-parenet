@@ -14,7 +14,10 @@ public class JobStart implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        JobManager.addJob("clear.file.job", ClearFileJob.class, "*/5 * * * * ?");
-        System.out.println("-----job启动成功" + new Date() + "------");
+        /*RemoteAddrValve remoteAddrValve = new RemoteAddrValve();
+        RemoteHostValve remoteHostValve = new RemoteHostValve();
+        remoteAddrValve.setDeny("192.168.1.137");*/
+       /* JobManager.addJob("clear.file.job", ClearFileJob.class, "*//*5 * * * * ?");
+        System.out.println("-----job启动成功" + new Date() + "------");*/
     }
 }

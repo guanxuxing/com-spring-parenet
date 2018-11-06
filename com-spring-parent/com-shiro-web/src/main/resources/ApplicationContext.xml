@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+	">
+
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<!--配置一个realm-->
+		 <property name="realm" ref="ShiroRealm"/>
+	</bean>
+
+	<!--配置一个realm-->
+	<bean id="ShiroRealm" class="com.spring.app.shiro.interceptor.ShiroRealm" ></bean>
+
+	<!-- 启动shiro注解 -->
+	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager"/>
+	</bean>
+
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager"/>
+		<!--<property name="loginUrl" value="/login.jsp"/>-->
+		<property name="loginUrl" value="/login_toRealLogin"/>
+		<property name="successUrl" value="/success.jsp"/>
+		<property name="unauthorizedUrl" value="/login_toRealLogin"/>
+		<property name="filterChainDefinitions">
+			<value>
+				/login = anon   <!-- //任何用户发送的请求都能够访问-->
+				/admin.jsp = roles[admin]
+				/user.jsp = roles[user]
+				/** = authc   <!--经过认证的请求可访问，否则将会将请求重定向到 ini 配置文件配置的 authc.loginUrl 资源，进行认证操作-->
+			</value>
+		</property>
+	</bean>
+	
+
+</beans>
